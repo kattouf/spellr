@@ -20,7 +20,7 @@ Gem::Specification.new do |spec|
     spec.metadata['changelog_uri'] = "#{spec.homepage}/blob/main/CHANGELOG.md"
   end
 
-  spec.required_ruby_version = '>= 2.5'
+  spec.required_ruby_version = '>= 3.0'
 
   spec.files = Dir.glob('{lib,exe,wordlists}/**/{*,.*}') + %w{
     CHANGELOG.md

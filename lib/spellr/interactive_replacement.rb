@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'readline'
+require 'reline'
 require_relative 'string_format'
 
 module Spellr
@@ -15,8 +15,8 @@ module Spellr
       @token = token
       @token_highlight = red(token)
       @reporter = reporter
-      Readline.input = reporter.output.stdin
-      Readline.output = reporter.output.stdout
+      Reline.input = reporter.output.stdin
+      Reline.output = reporter.output.stdout
     end
 
     def global_replace
@@ -44,9 +44,9 @@ module Spellr
     end
 
     def prompt_replacement
-      Readline.pre_input_hook = -> { pre_input_hook(token) }
+      Reline.pre_input_hook = -> { pre_input_hook(token) }
       prompt = "  Replace #{'all ' if global?}#{token_highlight} with: \e[32m"
-      Readline.readline(prompt)
+      Reline.readline(prompt)
     rescue Interrupt
       handle_ctrl_c
     end
@@ -77,12 +77,12 @@ module Spellr
     private
 
     def pre_input_hook(value)
-      Readline.refresh_line
-      Readline.insert_text value.to_s
-      Readline.redisplay
+      Reline.line_editor.reset_line
+      Reline.insert_text value.to_s
+      Reline.redisplay
 
       # Remove the hook right away.
-      Readline.pre_input_hook = nil
+      Reline.pre_input_hook = nil
     end
 
     def puts(str)
