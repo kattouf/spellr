@@ -39,13 +39,12 @@ module Spellr
 
     def ask_replacement
       puts ''
-      puts "  #{lighten '[^C] to go back'}"
+      puts "#{lighten '[^C] to go back'}"
       prompt_replacement
     end
 
     def prompt_replacement
-      Reline.pre_input_hook = -> { pre_input_hook(token) }
-      prompt = "  Replace #{'all ' if global?}#{token_highlight} with: \e[32m"
+      prompt = "Replace #{'all ' if global?}#{token_highlight} with: \e[32m"
       Reline.readline(prompt)
     rescue Interrupt
       handle_ctrl_c
@@ -76,17 +75,9 @@ module Spellr
 
     private
 
-    def pre_input_hook(value)
-      Reline.line_editor.reset_line
-      Reline.insert_text value.to_s
-      Reline.redisplay
-
-      # Remove the hook right away.
-      Reline.pre_input_hook = nil
-    end
-
     def puts(str)
       reporter.puts(str)
     end
   end
 end
+
